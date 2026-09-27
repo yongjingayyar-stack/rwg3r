@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NULLSPACE // Zone Zero Protocol — 3D Action RPG</title>
+<link rel="stylesheet" href="ui/style.css"/>
+</head>
+<body>
+<div id="app">
+  <canvas id="gl"></canvas>
+
+  <!-- ============ HUD ============ -->
+  <div id="hud" class="hidden">
+    <div class="vignette"></div>
+    <div class="scanlines"></div>
+
+    <!-- top-left: agent card -->
+    <div id="agent-card">
+      <div class="ac-portrait"><span>B</span></div>
+      <div class="ac-info">
+        <div class="ac-name">BELLY · Grade-A Agent</div>
+        <div class="bar hp"><i id="hp-fill"></i><em id="hp-text">100 / 100</em></div>
+        <div class="ac-sub">
+          <div class="bar energy"><i id="en-fill"></i></div>
+          <div class="dodge-cds"><i id="dd-cd"></i><i id="dp-cd"></i></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- top-right: zone status + fps -->
+    <div id="zone-status">
+      <div id="fps">-- FPS</div>
+      <div id="res-label">1920×1080</div>
+      <div id="zone-name">Sector 04 — Hollow Ruins</div>
+      <div id="zone-wave">Wave 1/3 · Enemies: --</div>
+    </div>
+
+    <!-- crosshair -->
+    <div id="reticle"><b></b><i></i><s></s><u></u><div id="ret-dot"></div></div>
+
+    <!-- combo -->
+    <div id="combo"><span id="combo-n">0</span><em>HITS</em></div>
+
+    <!-- boss bar -->
+    <div id="boss-bar" class="hidden">
+      <div class="bb-name">CAUTERIZER PRIME — Elite Ethereal</div>
+      <div class="bb-track"><i id="boss-fill"></i></div>
+    </div>
+
+    <!-- bottom-right skill icons -->
+    <div id="skills">
+      <div class="sk" id="sk-dodge"><kbd>Q</kbd><em>DASH</em><i class="cd"></i></div>
+      <div class="sk" id="sk-parry"><kbd>RMB</kbd><em>PARRY</em><i class="cd"></i></div>
+      <div class="sk" id="sk-burst"><kbd>F</kbd><em>SPECIAL</em><i class="cd"></i></div>
+    </div>
+
+    <!-- toast -->
+    <div id="toast"></div>
+
+    <!-- damage float layer -->
+    <div id="floaters"></div>
+  </div>
+
+  <!-- ============ START MENU ============ -->
+  <div id="menu">
+    <div class="menu-bg"></div>
+    <div class="menu-panel">
+      <div class="brand">
+        <h1>NULL<span>SPACE</span></h1>
+        <h2>ZONE&nbsp;ZERO PROTOCOL</h2>
+        <p>A real-time 3rd-person action RPG. Style-driven combat with dodges, parries and chain attacks.</p>
+      </div>
+
+      <div class="controls-grid">
+        <div><kbd>W A S D</kbd><span>Move / Run</span></div>
+        <div><kbd>MOUSE</kbd><span>Look / Camera orbit</span></div>
+        <div><kbd>SHIFT</kbd><span>Toggle Run ⇄ Walk</span></div>
+        <div><kbd>SPACE</kbd><span>Jump / Double-Jump</span></div>
+        <div><kbd>Q</kbd><span>Dash / Dodge (i-frames)</span></div>
+        <div><kbd>LMB</kbd><span>Attack · 5-hit chain</span></div>
+        <div><kbd>RMB</kbd><span>Block · timed Parry</span></div>
+        <div><kbd>F</kbd><span>Special Attack (energy)</span></div>
+        <div><kbd>E</kbd><span>Interact / Enter the Hollow</span></div>
+        <div><kbd>C</kbd><span>Camera zoom</span></div>
+        <div><kbd>TAB</kbd><span>Release mouse</span></div>
+      </div>
+
+      <label class="opt"><input type="checkbox" id="opt-bloom" checked/> Bloom &amp; HDR shaders</label>
+      <label class="opt"><input type="checkbox" id="opt-shadow" checked/> High-res shadows (PCF soft)</label>
+      <label class="opt"><input type="checkbox" id="opt-fog" checked/> Volumetric fog</label>
+      <label class="opt"><input type="checkbox" id="opt-sound" checked/> Sound FX</label>
+
+      <button id="btn-start">▶ ENTER THE HOLLOW</button>
+      <div class="hint">Click to lock the mouse. Runs at your native resolution with adaptive quality.</div>
+    </div>
+  </div>
+
+  <!-- ============ PAUSE ============ -->
+  <div id="pause" class="overlay hidden">
+    <div class="ov-panel">
+      <h2>PAUSED</h2>
+      <button id="btn-resume">RESUME</button>
+      <button id="btn-quit">MAIN MENU</button>
+    </div>
+  </div>
+
+  <!-- ============ DEFEAT ============ -->
+  <div id="defeat" class="overlay hidden">
+    <div class="ov-panel red">
+      <h2>HOLLOW CORRUPTION</h2>
+      <p>Your signal was lost in the Hollow.</p>
+      <button id="btn-retry">RETRY SECTOR</button>
+      <button id="btn-quit2">MAIN MENU</button>
+    </div>
+  </div>
+
+  <!-- ============ VICTORY ============ -->
+  <div id="victory" class="overlay hidden">
+    <div class="ov-panel gold">
+      <h2>SECTOR CLEARED</h2>
+      <p id="vic-stats"></p>
+      <button id="btn-again">EXPLORE OPEN WORLD</button>
+      <button id="btn-quit3">MAIN MENU</button>
+    </div>
+  </div>
+</div>
+
+<script type="importmap">
+{ "imports": { "three": "./vendor/three.module.js" } }
+</script>
+<script type="module" src="src/main.js"></script>
+</body>
+</html>
